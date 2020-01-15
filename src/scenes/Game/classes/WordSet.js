@@ -21,7 +21,7 @@ export default class WordSet {
                 this.availableWords[currWord[0]].push(currWord);
 
                 // Sorting Algorithm
-                
+
 
             } else {
                 // Create object key for letter
@@ -35,6 +35,10 @@ export default class WordSet {
 
 
 
+    }
+
+    add(word){
+        this.userWordBank.push(word)
     }
 
     initAvailableWords(){

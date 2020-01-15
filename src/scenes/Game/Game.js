@@ -1,7 +1,8 @@
 import 'phaser';
 import WordSet from './classes/WordSet';
-import {Letter} from './classes/Letter';
-import {ActiveWordDisplay} from './classes/ActiveWordDisplay';
+import { WordBank } from './classes/WordBank';
+import { Letter } from './classes/Letter';
+import { ActiveWordDisplay } from './classes/ActiveWordDisplay';
  
 const LEVELCONFIG = {
   fieldSize: 3,
@@ -17,6 +18,7 @@ export default class Game extends Phaser.Scene {
     this.targetLetterObj = null;
     this.activeWordDisplay = null;
     this.letterGridArr = [];
+    this.wordBank = null;
 
   }
  
@@ -57,28 +59,48 @@ export default class Game extends Phaser.Scene {
     // mouseup evnt listner - deactivate board/word
     /// evnt listeners
     document.addEventListener('mouseup', (e) => {
-
-      // User can select a target letter to begin word
-      this.targetLetterObj = null;
-      this.targetLetter = "";
-      
-      // clear wordbank; reset grid
-      this.resetGrid()
-;      this.activeWordDisplay.clear();
-
-      // User is not currently creating a word
-      this.activeWord = false;
+      //submit current word in bank
+      this.submitWord(this.activeWord);
 
     })
 
   }
+
+  submitWord(userString){
+      // User can select a target letter to begin word
+      this.targetLetterObj = null;
+      this.targetLetter = "";
+
+      // submit new word to wordset
+      // this.lvlWordSet.add(userString);
+      this.wordBank.submitNewWord(this.activeWordDisplay.currentWord);
+
+      // clear wordbank; reset grid
+      this.resetGrid();
+;     this.activeWordDisplay.clear();
+
+      // User is not currently creating a word
+      this.activeWord = false;
+
+  }
  
   create () {
+    //create Wordbank for level
+    this.wordBank = new WordBank(this, 0, 400);
+    this.wordBank.init();
+
+    // create letter grid
     this.createGrid();
 
-    // create wordbank
+    // create current word display
     this.activeWordDisplay = new ActiveWordDisplay(this, 0, 0);
     this.activeWordDisplay.init();
+
+    // create Wordset for level
+    // this.lvlWordSet
+
+
+
 
   }
 
