@@ -7,13 +7,13 @@ import Game from './scenes/Game/Game'
 const config = {
   type: Phaser.AUTO,
   parent: "phaser-example",
-  width: 800,
-  height: 600,
+  width: 700,
+  height: 700,
   // scene: {
   //   preload: preload,
   //   create: create
   // }
-  scenes: [Game]
+  scene: [Game]
 
 };
 
