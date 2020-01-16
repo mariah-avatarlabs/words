@@ -48,6 +48,7 @@ export default class Game extends Phaser.Scene {
       // Assign current letter user is starting with
       if(!this.activeWord && this.targetLetterObj){
         this.udpateActiveWord(this.targetLetter)
+        this.targetLetterObj.deactivate();
       }
 
       // User has started creating word

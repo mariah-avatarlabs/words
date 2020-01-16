@@ -19,7 +19,8 @@ export class WordBank extends Phaser.GameObjects.Container {
 
         this.width = 200;
         this.height = 300;
-        this.rows = 1;
+        this.rows = [1];
+        this.padding = 2.5;
 
         scene.add.existing(this);
     }
@@ -47,15 +48,38 @@ export class WordBank extends Phaser.GameObjects.Container {
 
     }
 
-    needNewRow(){
+    getXPos(wordObj){
+        let xPos;
+        let currRowIndx = this.rows.length;
+        let wordWidth = wordObj.width + (this.padding * 2);
+
+        // check/update row width with longest word
+        if(wordWidth > this.rows[currRowIndx]){
+            this.rows[currRowIndx] = wordWidth;
+        }
+
+        // add all max row widths to get xpos
+        for(let i = 0; i <= currRowIndx; i++){
+            xPos = xPos + this.rows[i];
+        }
+
+        return xPos;
 
     }
 
     updateDisplay(newWord){
         let padding = 2.5;
         let verifiedWordObj = this.scene.make.text(fontConfig);
+        let currWordCount = this.words.length - 1;
+
         
         // check to see if need to create a new row
+        let currRowHeight = 
+            this.words.length * (verifiedWordObj.height + (padding * this.words.length));
+
+        if((verifiedWordObj.height + currRowHeight + padding) >= this.height){
+            this.rows++;
+        }
 
         verifiedWordObj.x = this.rows * (verifiedWordObj.width + padding);
         verifiedWordObj.y = (this.words.length - 1) * (verifiedWordObj.height + padding);
