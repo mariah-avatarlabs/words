@@ -17,9 +17,10 @@ export class WordBank extends Phaser.GameObjects.Container {
 
         this.words = [];
 
-        this.width = 200;
-        this.height = 300;
-        this.rows = [1];
+        this.width = 300;
+        this.height = 200;
+        this.cols = [];
+        this.currColH = 0;
         this.padding = 2.5;
 
         scene.add.existing(this);
@@ -27,6 +28,7 @@ export class WordBank extends Phaser.GameObjects.Container {
 
     init(){
         this.createBgRect();
+        this.createNewCol();
     }
 
     createBgRect(){
@@ -34,7 +36,7 @@ export class WordBank extends Phaser.GameObjects.Container {
             lineStyle: { width: 2, color: 0x00ff00 }, 
             fillStyle: { color: 0xff0000 }
         });
-        var rect = new Phaser.Geom.Rectangle(0, 0, this.height, this.width);
+        var rect = new Phaser.Geom.Rectangle(0, 0, this.width, this.height);
 
         graphicsObj.strokeRectShape(rect);
 
@@ -44,51 +46,83 @@ export class WordBank extends Phaser.GameObjects.Container {
 
     }
 
+    needsNewCol(verifiedWordObj){
+        // check if needed to create new column
+        let wordHeight = 
+            (this.padding * 2) + verifiedWordObj.displayHeight;
 
-    getXPos(wordObj){
-        let xPos;
-        let currRowIndx = this.rows.length;
-        let wordWidth = wordObj.width + (this.padding * 2);
-
-        // check/update row width with longest word
-        if(wordWidth > this.rows[currRowIndx]){
-            this.rows[currRowIndx] = wordWidth;
+        if( this.currColH + wordHeight >= this.height ){
+            this.currColH = 0;
+            return true;
+        } else {
+            this.currColH += wordHeight;
+            return false;
         }
-
-        // add all max row widths to get xpos
-        for(let i = 0; i <= currRowIndx; i++){
-            xPos = xPos + this.rows[i];
-        }
-
-        return xPos;
-
     }
 
-    getYPos(wordObj){
-        let yPos;
+    updateWordBank(word){
+        this.words.push(word);
+    }
 
+    createNewCol(){
+        let colConfig = {
+            w: 0,
+            h: 0
+        }
+
+        this.cols.push(colConfig)
     }
 
     updateDisplay(newWord){
-        let padding = 2.5;
-        let verifiedWordObj = this.scene.make.text(fontConfig);
-        let currWordCount = this.words.length - 1;
-
+        this.updateWordBank(newWord);
         
-        // check to see if need to create a new row
-        let currRowHeight = 
-            this.words.length * (verifiedWordObj.height + (padding * this.words.length));
+        let currColIndx = this.cols.length - 1;
+        let currCol = this.cols[currColIndx];
+        
+        let padding = 2.5;
+        console.log('currcol: ', currCol)
 
-        if((verifiedWordObj.height + currRowHeight + padding) >= this.height){
-            this.rows++;
+        let newWordObj = this.scene.make.text(fontConfig);
+        newWordObj.text = newWord;
+
+        let newWordObjW = newWordObj.displayWidth + padding;
+        let newWordObjH = newWordObj.displayHeight + padding;
+        console.log('newWordObjH: ', newWordObjH)
+
+
+        // HEIGHT
+        if(currCol.h + newWordObjH > this.height){
+            // do i need to call again?
+            this.createNewCol();
+            currColIndx = this.cols.length - 1;
+            currCol = this.cols[currColIndx];            
         }
 
-        verifiedWordObj.x = this.rows * (verifiedWordObj.width + padding);
-        verifiedWordObj.y = (this.words.length - 1) * (verifiedWordObj.height + padding);
+        newWordObj.y = currCol.h;
+        currCol.h += newWordObjH;
+        console.log('yPos: ', currCol.h)
 
-        verifiedWordObj.text = newWord;
 
-        this.add(verifiedWordObj);
+        // update col width
+        if(currCol.w < newWordObjW){
+            currCol.w = newWordObjW;
+        }
+
+        let xPos = 0;
+        if( this.cols.length == 1){
+            xPos = 0;
+        } else {
+            for (let i = 0; i < this.cols.length - 1; i++ ){
+                console.log('tagetcolwidth: ', this.cols[i])
+                xPos = xPos + this.cols[i].w + padding;
+            }
+        }
+        newWordObj.x = xPos;
+
+
+
+        // add to group
+        this.add(newWordObj);
 
     }
 

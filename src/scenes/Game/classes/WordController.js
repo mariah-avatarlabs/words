@@ -60,7 +60,7 @@ export default class WordController {
     }
 
     generateLvlLetterSet(){
-        var possibleC = "bcdfghjklmnpqrstvwxz";
+        var possibleC;
         var possibleV = "aeiouy";
         var wordLength = lvlConfig.length;
         var lettersArr = new Array(wordLength);
@@ -72,14 +72,17 @@ export default class WordController {
         // refactor - vowel to consonant for levels
         switch (this.level) {
             case 1:
+                possibleC = "rtnslcdp";
                 numVowels = lvlConfig.length - Math.abs(lvlConfig.length / 2);
                 break;
 
             case 2:
+                possibleC = "bcdfghjklmnpqrstvwxz";
                 numVowels = lvlConfig.length - Math.abs(lvlConfig.length / 3);
                 break;   
             
             case 3:
+                possibleC = "mhgbfwkvxzjq";
                 numVowels = lvlConfig.length - Math.abs(lvlConfig.length / 4);
                 break;   
                 

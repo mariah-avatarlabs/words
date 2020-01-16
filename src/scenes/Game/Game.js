@@ -24,7 +24,6 @@ export default class Game extends Phaser.Scene {
 
 
   submitWord(userString){
-    console.log('submit')
       // User can select a target letter to begin word
       this.targetLetterObj = null;
       this.targetLetter = "";
