@@ -1,5 +1,5 @@
 import 'phaser';
-import WordSet from './classes/WordSet';
+import WordController from './classes/WordController';
 import { WordBank } from './classes/WordBank';
 import { Letter } from './classes/Letter';
 import { ActiveWordDisplay } from './classes/ActiveWordDisplay';
@@ -21,29 +21,42 @@ export default class Game extends Phaser.Scene {
     this.wordBank = null;
 
   }
+
+
+  submitWord(userString){
+    console.log('submit')
+      // User can select a target letter to begin word
+      this.targetLetterObj = null;
+      this.targetLetter = "";
+
+      // submit new word to wordset
+      this.wordController.submitNewWord(this.activeWordDisplay.currentWord);
+
+      // clear wordbank; reset grid
+      this.resetGrid();
+      this.activeWordDisplay.clear();
+
+      // User is not currently creating a word
+      this.activeWord = false;
+
+  }
  
-  preload () {
-    this.lvlWordSet = new WordSet("acdfsrtyi");
-    // this.lvlWordSet.initAvailableWords();
-    
-    this.letterLvlArray = this.lvlWordSet.letters.split('');
-    
-    let currRow = [];
-    this.lvlMatrix = [];
+  create () {
+    // create letter grid
+    this.createGrid();
 
-    for(let i = 0; i <= this.letterLvlArray.length; i++ ){
-      let rowIndx = i + 1;
-      let currLetter = this.letterLvlArray[i];
+    // create current word display
+    this.activeWordDisplay = new ActiveWordDisplay(this, 0, 0);
+    this.activeWordDisplay.init();
 
-      currRow.push(currLetter)
+    // init event emitters
+    this.initEventListeners();
 
-      if ( rowIndx % LEVELCONFIG.fieldSize == 0 ){
-        this.lvlMatrix.push(currRow)
-        currRow = [];
-      }
 
-    }
 
+  }
+
+  initEventListeners(){
     /// mousedown evnt listener - activate board/word
     document.addEventListener('mousedown', (e) => {
 
@@ -69,72 +82,56 @@ export default class Game extends Phaser.Scene {
 
   }
 
-  submitWord(userString){
-      // User can select a target letter to begin word
-      this.targetLetterObj = null;
-      this.targetLetter = "";
+  preload () {
 
-      // submit new word to wordset
-      // this.lvlWordSet.add(userString);
-      this.wordBank.submitNewWord(this.activeWordDisplay.currentWord);
-
-      // clear wordbank; reset grid
-      this.resetGrid();
-;     this.activeWordDisplay.clear();
-
-      // User is not currently creating a word
-      this.activeWord = false;
-
-  }
- 
-  create () {
-    //create Wordbank for level
+    // create Wordbank for level
     this.wordBank = new WordBank(this, 0, 400);
     this.wordBank.init();
 
-    // create letter grid
-    this.createGrid();
+    // config wordController - famecon
+    this.wordController = new WordController(this.wordBank, 1);
+    this.wordController.init();
+    console.log(this.wordController);
 
-    // create current word display
-    this.activeWordDisplay = new ActiveWordDisplay(this, 0, 0);
-    this.activeWordDisplay.init();
-
-    // create Wordset for level
-    // this.lvlWordSet
-
+    this.letterLvlArray = this.wordController.lettersArr;
+   
 
 
 
   }
 
-  udpateActiveWord(letter){
-    this.activeWordDisplay.update(letter);
-  }
+  createGridMatrix(){
+    let currRow = [];
+    let lvlMatrix = [];
 
-  updateTargetLetter(letterOBj){
-    this.targetLetterObj = letterOBj;
-    this.targetLetter = letterOBj.letter;
-  }
+    for(let i = 0; i <= this.letterLvlArray.length; i++ ){
+      let rowIndx = i + 1;
+      let currLetter = this.letterLvlArray[i];
 
-  resetGrid(){
-    for(let letterIndx in this.letterGridArr) {
-      let currLetterObj = this.letterGridArr[letterIndx];
-      currLetterObj.activate();
+      currRow.push(currLetter)
+
+      if ( rowIndx % LEVELCONFIG.fieldSize == 0 ){
+        lvlMatrix.push(currRow)
+        currRow = [];
+      }
+
     }
+
+    return lvlMatrix
+
   }
 
-  createGrid(){
+
+  createGrid(lvlLetterArray){
     // this.gameArray = [];
     this.letterObjs = [];
     this.letterObjDict = {};
-
-
-    let objRow = 0;
+    let gridMatrix = this.createGridMatrix();
 
     // REFACTOR - recursive
     // iterate through level matrix for positioning
-    for( let i = 0; i <= this.lvlMatrix.length - 1; i++){
-      let currMatrixRow = this.lvlMatrix[i];
+    for( let i = 0; i <= gridMatrix.length - 1; i++){
+      let currMatrixRow = gridMatrix[i];
       let currRow = i + 1;
       
       for(let i = 0; i <= currMatrixRow.length - 1; i++){
@@ -159,5 +156,23 @@ export default class Game extends Phaser.Scene {
 
 
   }
+
+  udpateActiveWord(letter){
+    this.activeWordDisplay.update(letter);
+  }
+
+  updateTargetLetter(letterOBj){
+    this.targetLetterObj = letterOBj;
+    this.targetLetter = letterOBj.letter;
+  }
+
+  resetGrid(){
+    for(let letterIndx in this.letterGridArr) {
+      let currLetterObj = this.letterGridArr[letterIndx];
+      currLetterObj.activate();
+    }
+  }
+
+
 
 };

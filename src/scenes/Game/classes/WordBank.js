@@ -44,9 +44,6 @@ export class WordBank extends Phaser.GameObjects.Container {
 
     }
 
-    createWord(newWord){
-
-    }
 
     getXPos(wordObj){
         let xPos;
@@ -64,6 +61,11 @@ export class WordBank extends Phaser.GameObjects.Container {
         }
 
         return xPos;
+
+    }
+
+    getYPos(wordObj){
+        let yPos;
 
     }
 
@@ -90,17 +92,8 @@ export class WordBank extends Phaser.GameObjects.Container {
 
     }
 
-    submitNewWord(word){
-        if(!this.doesExist(word)){
-            this.words.push(word);
-            this.updateDisplay(word);
-        }
-    }
 
-    doesExist(word){
-        // check that word does not exist in current wordbank
-        return this.words.includes(word);
-    }
+
 
 
 

@@ -96,8 +96,10 @@ export class Letter extends Phaser.GameObjects.Container {
 
         // Register in current word if user is currently creating a word
         this.hitBox.on('pointerover', () => {
-            this.scene.updateTargetLetter(this);
-            this.submitLetter();
+            if(this.available){
+                this.scene.updateTargetLetter(this);
+                this.submitLetter();
+            }
         })  
 
         // create letter Obj on group
