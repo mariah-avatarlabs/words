@@ -38,7 +38,7 @@ export class Letter extends Phaser.GameObjects.Container {
             this.available == true
         ){
             this.scene.udpateActiveWord(this.letter);
-            this.available = false;
+            this.deactivate();
         }
 
     }
@@ -77,10 +77,12 @@ export class Letter extends Phaser.GameObjects.Container {
 
     deactivate(){
         this.available = false;
+        this.alpha = 0.5;
     }
 
     activate(){
         this.available = true;
+        this.alpha = 1.0;
     }
 
     init(){
@@ -91,6 +93,7 @@ export class Letter extends Phaser.GameObjects.Container {
         // create smaller hitbox
         this.createHitRect()
         this.hitBox.setInteractive();
+
         // Register in current word if user is currently creating a word
         this.hitBox.on('pointerover', () => {
             this.scene.updateTargetLetter(this);

@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-
 const ANA_EP = "http://www.anagramica.com";
-
+const PROXY = "/proxy_api"
+// const app = express();
 
 export const getWordSet =(lvlStringSet) => {
     axios.get(
-        `${ANA_EP}/all/:${lvlStringSet}`, {
+        `${PROXY}/all/:${lvlStringSet}`, {
             'headers': {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "*",
@@ -24,4 +24,5 @@ export const getWordSet =(lvlStringSet) => {
 
     })
 }
+
 

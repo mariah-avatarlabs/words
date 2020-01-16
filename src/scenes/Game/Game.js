@@ -24,6 +24,8 @@ export default class Game extends Phaser.Scene {
  
   preload () {
     this.lvlWordSet = new WordSet("acdfsrtyi");
+    // this.lvlWordSet.initAvailableWords();
+    
     this.letterLvlArray = this.lvlWordSet.letters.split('');
     
     let currRow = [];

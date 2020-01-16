@@ -7,10 +7,28 @@ module.exports = {
   mode: "development",
   devtool: "eval-source-map",
   devServer: {
+    allowedHosts: [
+      'http://www.anagramica.com',
+    ],
+    proxy: 
+    {
+    //   // proxy all requests whose path starting with /proxy_api to http://m.kugou.com/proxy_api then remove '/proxy_api' string
+      '/proxy_api': {
+        changeOrigin: true,
+        target: 'http://www.anagramica.com',
+        pathRewrite: {
+          '^/proxy_api': '/'
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          "Access-Control-Allow-Methods": "GET",
+        }        
+      }
+    },    
     headers: {
       "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "*",
-      "Access-Control-Allow-Headers": "*"
+      "Access-Control-Allow-Methods": "GET",
+      "Access-Control-Allow-Headers": "*",
     }
   },
   module: {
