@@ -31,3 +31,20 @@ export const getWordSet = (lvlStringSet) => {
 }
 
 
+let DATA = [
+    {
+        q: "what symbols do dionne see at the top of the map?",
+        a: "letters"
+    },
+    {
+        q: "what is tai's last name?",
+        a: "fraiser"
+    },
+]
+
+export const getWordSetB = () => {
+    return DATA;
+
+    //scramble word
+
+}

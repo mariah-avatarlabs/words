@@ -3,6 +3,7 @@ import WordController from './classes/WordController';
 import { Timer } from './classes/Timer';
 import { WordBank } from './classes/WordBank';
 import { Letter } from './classes/Letter';
+import { Grid } from './classes/Grid';
 import { ActiveWordDisplay } from './classes/ActiveWordDisplay';
  
 const LEVELCONFIG = {
@@ -44,6 +45,9 @@ export default class Game extends Phaser.Scene {
   create () {
     // create letter grid
     this.createGrid();
+
+    // create grid obj
+    this.grid = new Grid(this, 0, 0, this.wordController.lettersArr.join(''));
 
     // create current word display
     this.activeWordDisplay = new ActiveWordDisplay(this, 0, 0);
