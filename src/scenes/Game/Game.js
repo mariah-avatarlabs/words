@@ -1,5 +1,6 @@
 import 'phaser';
 import WordController from './classes/WordController';
+import { Timer } from './classes/Timer';
 import { WordBank } from './classes/WordBank';
 import { Letter } from './classes/Letter';
 import { ActiveWordDisplay } from './classes/ActiveWordDisplay';
@@ -23,7 +24,7 @@ export default class Game extends Phaser.Scene {
   }
 
 
-  submitWord(userString){
+  submitWord(){
       // User can select a target letter to begin word
       this.targetLetterObj = null;
       this.targetLetter = "";
@@ -74,6 +75,7 @@ export default class Game extends Phaser.Scene {
     // mouseup evnt listner - deactivate board/word
     /// evnt listeners
     document.addEventListener('mouseup', (e) => {
+      console.log('mouseup')
       //submit current word in bank
       this.submitWord(this.activeWord);
 
@@ -83,6 +85,8 @@ export default class Game extends Phaser.Scene {
 
   preload () {
 
+
+
     // create Wordbank for level
     this.wordBank = new WordBank(this, 0, 400);
     this.wordBank.init();
@@ -91,9 +95,12 @@ export default class Game extends Phaser.Scene {
     this.wordController = new WordController(this.wordBank, 1);
     this.wordController.init();
     console.log(this.wordController);
+   
+    // create timer
+    this.timer = new Timer(this, 270, 150 );
+    this.timer.init();
 
     this.letterLvlArray = this.wordController.lettersArr;
-   
 
 
 
