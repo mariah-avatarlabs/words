@@ -96,12 +96,13 @@ export class Grid extends Phaser.GameObjects.Container {
     }
 
     // reafactor - multiple times same loop
-    resetGrid(){
+    reset(){
         for( let i = 0; i <= this.gridMatrix.length - 1; i++){
             let targetRow = this.gridMatrix[i];
 
             for (let i = 0; i <= targetRow.length - 1; i++){
                 let currLetterObj = targetRow[i];
+                console.log('reset inter: ', currLetterObj)
                 currLetterObj.activate();
 
             }

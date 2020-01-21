@@ -1,6 +1,3 @@
-import demoData from '../../../assets/data/data.json'
-import {getWordSet} from '../../../utilities/Data';
-
 let lvlConfig = {
     consonants: 0,
     vowels: 0,
@@ -8,27 +5,24 @@ let lvlConfig = {
 }
 
 
-export default class WordController {
-    constructor(wordbankObj, level) {
+export class WordController {
+    constructor(wordbankObj, word) {
+        this.word = word;
+        this.string = "";
 
         this.wordbankObj = wordbankObj;
-        this.level = level;
-        this.lettersArr = this.generateLvlLetterSet();
-
+        // this.lettersArr = this.generateLvlLetterSet();
+        this.lettersArr = [];
+        
         this.availableWords = {};      
         this.userWordBank = [];
 
     }
 
     init(){
-        // refactor - need control jic too many in response
-        this.getAvailableWords()
-            .then(
-                words => { this.availableWords = this.sortWords(words.all); console.log(this) } 
-            ).catch(
-                err => console.log(err)
-            );
-        
+        console.log('wordctrlword: ', this.word)
+        this.generateWordLetterSet(this.word);
+
     }
 
     selectRand(quantity, string){
@@ -51,112 +45,51 @@ export default class WordController {
     }
 
     shuffleString(string){
+        let alphabank = "abcdefghijklmnopqrstuvwxyz";
+
+        // add letter to string that does not exist 
+        do {
+            let letterIndx = Math.floor(Math.random() * (alphabank.length - 0 + 1) + 0);  
+            if(!string.includes(alphabank[letterIndx])){
+                string+=alphabank[letterIndx];
+                console.log('add: ', alphabank[letterIndx])
+            }
+
+        } while (string.length < lvlConfig.length)
+
         // https://stackoverflow.com/questions/3943772/how-do-i-shuffle-the-characters-in-a-string-in-javascript
         let shuffledString = string.split('').sort(() => {
             return 0.5-Math.random()
         }).join('')
+        
 
         return shuffledString;
     }
 
-    generateLvlLetterSet(){
-        var possibleC;
-        var possibleV = "aeiouy";
-        var wordLength = lvlConfig.length;
-        var lettersArr = new Array(wordLength);
-        let numVowels;
-        let numConsonants;
-        let vowels;
-        let consonants;
+    generateWordLetterSet(currWord){
+        let letterTrack = {};
+        let finString = "";
 
-        // refactor - vowel to consonant for levels
-        switch (this.level) {
-            case 1:
-                possibleC = "rtnslcdp";
-                numVowels = lvlConfig.length - Math.abs(lvlConfig.length / 2);
-                break;
+        for (let i = 0; i <= currWord.length - 1; i++){
+            let currLetter = currWord[i];
 
-            case 2:
-                possibleC = "bcdfghjklmnpqrstvwxz";
-                numVowels = lvlConfig.length - Math.abs(lvlConfig.length / 3);
-                break;   
-            
-            case 3:
-                possibleC = "mhgbfwkvxzjq";
-                numVowels = lvlConfig.length - Math.abs(lvlConfig.length / 4);
-                break;   
-                
-        }
-
-        if(numVowels < 1){ numVowels = 1 };
-        numVowels = Math.floor(numVowels);
-        numConsonants = lvlConfig.length - numVowels;
-
-        vowels = this.selectRand(numVowels, possibleV);
-        consonants = this.selectRand(numConsonants, possibleC);
-        
-        // shuffle letters and assign to array
-        lettersArr = this.shuffleString(vowels + consonants).split('');
-        return lettersArr;
-
-    }
-
-    sortWords(data){
-        let sortedWordsObj = {}
-
-        for (let i = 0; i <= data.length - 1; i++ ){
-            let currWord = data[i];
-
-            if(sortedWordsObj[currWord[0]]){
-                // Add current word to that portion
-                sortedWordsObj[currWord[0]].push(currWord);
-
-                // refactor - Sorting Algorithm
-
-
-            } else {
-                // Create object key for letter
-                sortedWordsObj[currWord[0]] = [currWord];
-
+            // skip additional of duplicate letters
+            if(letterTrack[`${currLetter}`] == undefined){
+                letterTrack[currLetter] = '';
+                finString += currLetter;
             }
-
         }
 
-        return sortedWordsObj;
+        this.letters = finString;
+        this.string = this.shuffleString(finString);
+        this.lettersArr = this.string.split('');
 
     }
 
-    isValidWord(newWord){
-        let wordIndx = newWord[0];
-        if(this.availableWords[wordIndx]){
-            return this.availableWords[wordIndx].includes(newWord);
-        } else {
-            return false;
-        }
-    }
-
-    submitNewWord(word){
-        if(
-            !this.doesExistInBank(word) &
-            this.isValidWord(word)
-        ){
-            this.userWordBank.push(word);
-            
-            // refactor - two source truth
-            this.wordbankObj.updateDisplay(word);
-        }
-
+    update(newWord){
+        this.word = newWord;
+        this.generateWordLetterSet(this.word);
     }
     
-    doesExistInBank(word){
-        // check that word does not exist in current wordbank
-        return this.userWordBank.includes(word);
-    }
-    
-    getAvailableWords(){
-        let lettersString = this.lettersArr.join('');
-        return getWordSet(lettersString);
-    }
-
 
   }

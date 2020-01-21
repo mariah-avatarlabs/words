@@ -1,5 +1,7 @@
 import 'phaser';
-import WordController from './classes/WordController';
+import data from '../../assets/data/data.json';
+
+import { WordController } from './classes/WordController';
 import { Timer } from './classes/Timer';
 import { WordBank } from './classes/WordBank';
 import { Letter } from './classes/Letter';
@@ -15,15 +17,29 @@ export default class Game extends Phaser.Scene {
   constructor () {
     super('Game');
 
-    this.activeWord = false;
     this.targetLetter = "";
     this.targetLetterObj = null;
     this.activeWordDisplay = null;
     this.letterGridArr = [];
     this.wordBank = null;
 
+    this.gameData = data;
+    this.dataIndx = 0;
+    this.word = '';
+    this.question = '';
+
   }
 
+  nextLvl(){
+    this.dataIndx++;
+    this.word = this.gameData[this.dataIndx].word;
+    this.question = this.gameData[this.dataIndx].question;
+
+    this.wordController.update(this.word);
+    let newString = this.wordController.string;
+    this.grid.updateGrid(newString);
+
+  }
 
   submitWord(){
       // User can select a target letter to begin word
@@ -31,14 +47,18 @@ export default class Game extends Phaser.Scene {
       this.targetLetter = "";
 
       // submit new word to wordset
-      this.wordController.submitNewWord(this.activeWordDisplay.currentWord);
+      // this.wordController.submitNewWord(this.activeWordDisplay.currentWord);
+      console.log('word display: ', this.activeWordDisplay.currentWord)
+      console.log('targetWord: ', this.word);
+  
+      if(this.activeWordDisplay.currentWord === this.word){
+        this.nextLvl();
 
-      // clear wordbank; reset grid
-      this.resetGrid();
+      }      
+
+      this.grid.reset();
       this.activeWordDisplay.clear();
 
-      // User is not currently creating a word
-      this.activeWord = false;
 
   }
  
@@ -46,11 +66,6 @@ export default class Game extends Phaser.Scene {
     // create grid obj
     this.grid = new Grid(this, 0, 0, this.wordController.lettersArr.join(''));
     this.grid.init();
-
-    window.setTimeout(
-      () => { this.grid.updateGrid('wertyuiop') },
-      2000
-    )
 
     // create current word display
     this.activeWordDisplay = new ActiveWordDisplay(this, 0, 0);
@@ -64,26 +79,10 @@ export default class Game extends Phaser.Scene {
   }
 
   initEventListeners(){
-    /// mousedown evnt listener - activate board/word
-    // document.addEventListener('mousedown', (e) => {
-
-      // Assign current letter user is starting with
-      if(!this.activeWord && this.targetLetterObj){
-        this.udpateActiveWord(this.targetLetter)
-        this.targetLetterObj.deactivate();
-      }
-
-      // User has started creating word
-      this.activeWord = true;
-
-
-    // })
-
     document.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
         //submit current word in bank
         this.submitWord(this.activeWord);
-        this.grid.resetGrid();
 
       }
     })
@@ -91,13 +90,15 @@ export default class Game extends Phaser.Scene {
   }
 
   preload () {
+    this.word = this.gameData[this.dataIndx].word;
+    this.question = this.gameData[this.dataIndx].question;
 
     // create Wordbank for level
     this.wordBank = new WordBank(this, 0, 400);
     this.wordBank.init();
 
     // config wordController - famecon
-    this.wordController = new WordController(this.wordBank, 1);
+    this.wordController = new WordController(this.wordBank, this.word);
     this.wordController.init();
     console.log(this.wordController);
    
@@ -111,22 +112,8 @@ export default class Game extends Phaser.Scene {
 
   }
 
-
-
   udpateActiveWord(letter){
     this.activeWordDisplay.update(letter);
-  }
-
-  updateTargetLetter(letterOBj){
-    this.targetLetterObj = letterOBj;
-    this.targetLetter = letterOBj.letter;
-  }
-
-  resetGrid(){
-    for(let letterIndx in this.letterGridArr) {
-      let currLetterObj = this.letterGridArr[letterIndx];
-      currLetterObj.activate();
-    }
   }
 
 
