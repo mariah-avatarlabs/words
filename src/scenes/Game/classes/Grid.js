@@ -65,22 +65,46 @@ export class Grid extends Phaser.GameObjects.Container {
 
             for(let i = 0; i <= GRIDCONFIG.fieldCol - 1; i++){
                 let currLetter = currMatrixRow[i];
-                console.log(currLetter)
+                let letterObj = this.createLetterObj(currLetter, currRow, i);
+                currMatrixRow[i] = letterObj;
 
-                this.createLetterObj(currLetter, currRow, i);
-        
                 //this.letterObjDict[`${currLetter}${i + 1}`] = letterGameObj
             }
+
 
         }
         
     }
+    
+    // reafactor - multiple times same loop
+    updateGrid(newString){
+        this.letters = newString;
+        let charInStringIndx = 0;
 
-    updateGrid(){
-        console.log("update grid")
         for( let i = 0; i <= this.gridMatrix.length - 1; i++){
             let targetRow = this.gridMatrix[i];
-            console.log('targetRow: ', targetRow)
+
+            for (let i = 0; i <= targetRow.length - 1; i++){
+                let currLetterObj = targetRow[i];
+
+                currLetterObj.changeLetter(newString[charInStringIndx]);
+                currLetterObj.activate();
+                charInStringIndx++;
+            }
+        }
+
+    }
+
+    // reafactor - multiple times same loop
+    resetGrid(){
+        for( let i = 0; i <= this.gridMatrix.length - 1; i++){
+            let targetRow = this.gridMatrix[i];
+
+            for (let i = 0; i <= targetRow.length - 1; i++){
+                let currLetterObj = targetRow[i];
+                currLetterObj.activate();
+
+            }
         }
     }
 

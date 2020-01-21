@@ -47,6 +47,11 @@ export default class Game extends Phaser.Scene {
     this.grid = new Grid(this, 0, 0, this.wordController.lettersArr.join(''));
     this.grid.init();
 
+    window.setTimeout(
+      () => { this.grid.updateGrid('wertyuiop') },
+      2000
+    )
+
     // create current word display
     this.activeWordDisplay = new ActiveWordDisplay(this, 0, 0);
     this.activeWordDisplay.init();
@@ -60,7 +65,7 @@ export default class Game extends Phaser.Scene {
 
   initEventListeners(){
     /// mousedown evnt listener - activate board/word
-    document.addEventListener('mousedown', (e) => {
+    // document.addEventListener('mousedown', (e) => {
 
       // Assign current letter user is starting with
       if(!this.activeWord && this.targetLetterObj){
@@ -72,22 +77,20 @@ export default class Game extends Phaser.Scene {
       this.activeWord = true;
 
 
-    })
+    // })
 
-    // mouseup evnt listner - deactivate board/word
-    /// evnt listeners
-    document.addEventListener('mouseup', (e) => {
-      console.log('mouseup')
-      //submit current word in bank
-      this.submitWord(this.activeWord);
+    document.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        //submit current word in bank
+        this.submitWord(this.activeWord);
+        this.grid.resetGrid();
 
+      }
     })
 
   }
 
   preload () {
-
-
 
     // create Wordbank for level
     this.wordBank = new WordBank(this, 0, 400);
