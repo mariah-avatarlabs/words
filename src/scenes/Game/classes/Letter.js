@@ -17,6 +17,7 @@ export class Letter extends Phaser.GameObjects.Container {
         super(scene, x, y, children);
 
         this.letter = letter;
+        this.letterObj = null;
         this.available = true;
 
         this.bgRect;
@@ -85,6 +86,11 @@ export class Letter extends Phaser.GameObjects.Container {
         this.alpha = 1.0;
     }
 
+    changeLetter(letter){
+        this.letter = letter;
+        this.letterObj.text = letter;
+    }
+
     init(){
 
         // create bg rectangle
@@ -103,11 +109,7 @@ export class Letter extends Phaser.GameObjects.Container {
         })  
 
         // create letter Obj on group
-        this.createLetter();
-
-
-
-    
+        this.createLetter();  
 
 
     }
@@ -118,6 +120,7 @@ export class Letter extends Phaser.GameObjects.Container {
 
         let letterGameObj = this.scene.make.text(config);
         letterGameObj.setOrigin(0.5, 0.5);
+        this.letterObj = letterGameObj;
         this.add(letterGameObj);
     }
 

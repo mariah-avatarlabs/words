@@ -43,11 +43,9 @@ export default class Game extends Phaser.Scene {
   }
  
   create () {
-    // create letter grid
-    this.createGrid();
-
     // create grid obj
     this.grid = new Grid(this, 0, 0, this.wordController.lettersArr.join(''));
+    this.grid.init();
 
     // create current word display
     this.activeWordDisplay = new ActiveWordDisplay(this, 0, 0);
@@ -110,62 +108,7 @@ export default class Game extends Phaser.Scene {
 
   }
 
-  createGridMatrix(){
-    let currRow = [];
-    let lvlMatrix = [];
 
-    for(let i = 0; i <= this.letterLvlArray.length; i++ ){
-      let rowIndx = i + 1;
-      let currLetter = this.letterLvlArray[i];
-
-      currRow.push(currLetter)
-
-      if ( rowIndx % LEVELCONFIG.fieldSize == 0 ){
-        lvlMatrix.push(currRow)
-        currRow = [];
-      }
-
-    }
-
-    return lvlMatrix
-
-  }
-
-
-  createGrid(lvlLetterArray){
-    // this.gameArray = [];
-    this.letterObjs = [];
-    this.letterObjDict = {};
-    let gridMatrix = this.createGridMatrix();
-
-    // REFACTOR - recursive
-    // iterate through level matrix for positioning
-    for( let i = 0; i <= gridMatrix.length - 1; i++){
-      let currMatrixRow = gridMatrix[i];
-      let currRow = i + 1;
-      
-      for(let i = 0; i <= currMatrixRow.length - 1; i++){
-        let currLetter = currMatrixRow[i];
-        console.log(currLetter)
-
-        let letterGameObj = new Letter(
-          this,
-          LEVELCONFIG.tileSize * i,
-          LEVELCONFIG.tileSize * currRow,
-          currLetter,
-          LEVELCONFIG.tileSize,
-          LEVELCONFIG.tileSize
-        );
-
-        this.letterObjDict[`${currLetter}${i + 1}`] = letterGameObj
-        this.letterGridArr.push(letterGameObj);
-
-      }
-
-    }
-
-
-  }
 
   udpateActiveWord(letter){
     this.activeWordDisplay.update(letter);
