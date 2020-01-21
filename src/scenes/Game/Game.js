@@ -31,13 +31,16 @@ export default class Game extends Phaser.Scene {
   }
 
   nextLvl(){
-    this.dataIndx++;
-    this.word = this.gameData[this.dataIndx].word;
-    this.question = this.gameData[this.dataIndx].question;
-
-    this.wordController.update(this.word);
-    let newString = this.wordController.string;
-    this.grid.updateGrid(newString);
+    if(this.dataIndx + 1 < this.gameData.length){
+      this.dataIndx++;
+      this.word = this.gameData[this.dataIndx].word;
+      this.question = this.gameData[this.dataIndx].question;
+      
+      this.wordController.update(this.word);
+      let newString = this.wordController.string;
+      this.grid.updateGrid(newString);
+      this.activeWordDisplay.updateQuestion(this.question);
+    }
 
   }
 
@@ -63,13 +66,15 @@ export default class Game extends Phaser.Scene {
   }
  
   create () {
-    // create grid obj
-    this.grid = new Grid(this, 0, 0, this.wordController.lettersArr.join(''));
-    this.grid.init();
 
     // create current word display
-    this.activeWordDisplay = new ActiveWordDisplay(this, 0, 0);
+    this.activeWordDisplay = new ActiveWordDisplay(this, 0, 0, this.question);
     this.activeWordDisplay.init();
+
+    // create grid obj
+    // refactor - expense calculation .getBounds??
+    this.grid = new Grid(this, 0, this.activeWordDisplay.getBounds().height, this.wordController.lettersArr.join(''));
+    this.grid.init(); 
 
     // init event emitters
     this.initEventListeners();
@@ -95,7 +100,7 @@ export default class Game extends Phaser.Scene {
 
     // create Wordbank for level
     this.wordBank = new WordBank(this, 0, 400);
-    this.wordBank.init();
+    // this.wordBank.init();
 
     // config wordController - famecon
     this.wordController = new WordController(this.wordBank, this.word);

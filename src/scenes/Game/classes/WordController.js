@@ -82,6 +82,7 @@ export class WordController {
 
         this.letters = finString;
         this.string = this.shuffleString(finString);
+        console.log("new set: ", this.string)
         this.lettersArr = this.string.split('');
 
     }
