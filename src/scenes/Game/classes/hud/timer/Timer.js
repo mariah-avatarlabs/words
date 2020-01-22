@@ -1,13 +1,14 @@
 import 'phaser';
-import {config} from '../../../assets/data/config.js'
+import { config } from '../../../../../assets/data/config.js'
+
 
 
 export class Timer extends Phaser.GameObjects.Container {
     constructor(scene, x, y, children) {
         super(scene, x, y, children);
 
-        this.config = config.timer;
         this.intervalTime = 10;
+        this.config = config.timer;
         this.gameTime = this.intervalTime * 3;
         this.currTime = this.gameTime;
         

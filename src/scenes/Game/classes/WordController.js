@@ -1,8 +1,4 @@
-let lvlConfig = {
-    consonants: 0,
-    vowels: 0,
-    length: 9
-}
+import { config } from '../../../assets/data/config.js'
 
 
 export class WordController {
@@ -11,7 +7,6 @@ export class WordController {
         this.string = "";
 
         this.wordbankObj = wordbankObj;
-        // this.lettersArr = this.generateLvlLetterSet();
         this.lettersArr = [];
         
         this.availableWords = {};      
@@ -47,21 +42,26 @@ export class WordController {
     shuffleString(string){
         let alphabank = "abcdefghijklmnopqrstuvwxyz";
 
-        // add letter to string that does not exist 
-        do {
+        var updateString = function(){
             let letterIndx = Math.floor(Math.random() * (alphabank.length - 0 + 1) + 0);  
+
             if(!string.includes(alphabank[letterIndx])){
-                string+=alphabank[letterIndx];
-                console.log('add: ', alphabank[letterIndx])
+                string+=alphabank[letterIndx];              
             }
 
-        } while (string.length < lvlConfig.length)
+            if(string.length < (config.grid.columns * config.grid.rows) ){
+                updateString();
+            }
+        }
+
+        if(string.length < 9){
+            updateString();
+        }
 
         // https://stackoverflow.com/questions/3943772/how-do-i-shuffle-the-characters-in-a-string-in-javascript
         let shuffledString = string.split('').sort(() => {
             return 0.5-Math.random()
-        }).join('')
-        
+        }).join('') 
 
         return shuffledString;
     }

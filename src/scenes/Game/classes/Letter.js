@@ -1,16 +1,6 @@
 import 'phaser';
+import { config } from '../../../assets/data/config.js'
 
-let styleConfig = {
-    x: 25,
-    y: 0,
-    style: {
-        fontSize: '64px',
-        fontFamily: 'Arial',
-        color: '#ffffff',
-        align: 'center',  // 'left'|'center'|'right'|'justify'
-        backgroundColor: '#ff00ff'
-    }    
-}
 
 export class Letter extends Phaser.GameObjects.Container {
     constructor(scene, x, y, letter, width, height, children) {
@@ -20,6 +10,7 @@ export class Letter extends Phaser.GameObjects.Container {
         this.letterObj = null;
         this.available = true;
 
+        this.config = config.grid.letters;
         this.bgRect;
         this.hitBox;
 
@@ -116,10 +107,11 @@ export class Letter extends Phaser.GameObjects.Container {
     }
 
     createLetter(){
-        let config = styleConfig;
+        let config = this.config;
         config.text = this.letter;
 
         let letterGameObj = this.scene.make.text(config);
+
         letterGameObj.setOrigin(0.5, 0.5);
         this.letterObj = letterGameObj;
         this.add(letterGameObj);

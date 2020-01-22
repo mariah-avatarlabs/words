@@ -1,21 +1,13 @@
 import 'phaser';
+import {config} from '../../../assets/data/config.js'
 
-let fontConfig = {
-    x: 0,
-    y: 0,
-    style: {
-        fontSize: '22.5px',
-        fontFamily: 'Arial',
-        color: '#ffffff',
-        align: 'center',  // 'left'|'center'|'right'|'justify'
-    }    
-}
 
 export class WordBank extends Phaser.GameObjects.Container {
     constructor(scene, x, y, children) {
         super(scene, x, y, children);
 
         this.words = [];
+        this.config = config.wordBank;
 
         this.width = 300;
         this.height = 200;
@@ -82,7 +74,7 @@ export class WordBank extends Phaser.GameObjects.Container {
         let padding = 2.5;
         console.log('currcol: ', currCol)
 
-        let newWordObj = this.scene.make.text(fontConfig);
+        let newWordObj = this.scene.make.text(this.config.style);
         newWordObj.text = newWord;
 
         let newWordObjW = newWordObj.displayWidth + padding;
@@ -125,10 +117,6 @@ export class WordBank extends Phaser.GameObjects.Container {
         this.add(newWordObj);
 
     }
-
-
-
-
 
 
 }

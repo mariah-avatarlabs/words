@@ -1,16 +1,14 @@
 import 'phaser';
+import {config} from '../../../assets/data/config.js'
 import { Letter } from '../classes/Letter'
 
-const GRIDCONFIG = {
-    fieldCol: 3,
-    tileSize: 100,
-}
 
 export class Grid extends Phaser.GameObjects.Container {
     constructor(scene, x, y, letters, children) {
         super(scene, x, y, children);
 
         this.letters = letters;
+        this.config = config.grid;
         this.gridMatrix = this.createMatrix();
         this.gridMatrixObjs = [];
         this.letterObjDict = {};
@@ -33,7 +31,7 @@ export class Grid extends Phaser.GameObjects.Container {
           // add letter to matrix
           currRow.push(currLetter)
 
-          if ( rowIndx % GRIDCONFIG.fieldCol == 0 ){
+          if ( rowIndx % this.config.columns == 0 ){
             lvlMatrix.push(currRow)
             currRow = [];
           }
@@ -47,11 +45,11 @@ export class Grid extends Phaser.GameObjects.Container {
     createLetterObj(letter, rowIndx, rowPosIndx){
         let letterGameObj = new Letter(
             this.scene,
-            GRIDCONFIG.tileSize * rowPosIndx,
-            GRIDCONFIG.tileSize * rowIndx,
+            this.config.tileSize * rowPosIndx,
+            this.config.tileSize * rowIndx,
             letter,
-            GRIDCONFIG.tileSize,
-            GRIDCONFIG.tileSize
+            this.config.tileSize,
+            this.config.tileSize
         );
         this.add(letterGameObj);
         return letterGameObj;
@@ -63,7 +61,7 @@ export class Grid extends Phaser.GameObjects.Container {
             let currMatrixRow = this.gridMatrix[i];
             let currRow = i + 1;
 
-            for(let i = 0; i <= GRIDCONFIG.fieldCol - 1; i++){
+            for(let i = 0; i <= this.config.columns - 1; i++){
                 let currLetter = currMatrixRow[i];
                 let letterObj = this.createLetterObj(currLetter, currRow, i);
                 currMatrixRow[i] = letterObj;

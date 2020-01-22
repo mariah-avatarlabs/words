@@ -1,22 +1,6 @@
 import 'phaser';
+import { config } from '../../../assets/data/config.js'
 
-let config = {
-    height: 80,
-    width: 600,
-    copyConfig: {
-        x: 0,
-        y: 0,
-        width: 600,
-        height: 150,
-        text: "---------",
-        style: {
-            fontSize: '37.5px',
-            fontFamily: 'Arial',
-            color: '#ffffff',
-            align: 'center',  // 'left'|'center'|'right'|'justify'
-        }           
-    }
-}
 
 export class ActiveWordDisplay extends Phaser.GameObjects.Container {
     constructor(scene, x, y, question, width, height, children) {
@@ -25,6 +9,7 @@ export class ActiveWordDisplay extends Phaser.GameObjects.Container {
         this.wordObj;
         this.quesObj;
         this.bgRectObj;
+        this.config = config.activeWordDisplay;
 
         this.currentWord = "";
         this.currQuestion = question;
@@ -38,7 +23,7 @@ export class ActiveWordDisplay extends Phaser.GameObjects.Container {
     }
 
     createQuestionTextObj(){
-        let questionTextObj = this.scene.make.text(config.copyConfig);
+        let questionTextObj = this.scene.make.text(this.config.copyConfig);
         questionTextObj.text = this.currQuestion;
         this.add(questionTextObj);
 
@@ -50,9 +35,9 @@ export class ActiveWordDisplay extends Phaser.GameObjects.Container {
         //add graphics to ascene
         let graphicsObj = this.scene.add.rectangle(
             0,
-            config.height / 2 + this.quesObj.height,
-            config.width,
-            config.height,
+            this.config.height / 2 + this.quesObj.height,
+            this.config.width,
+            this.config.height,
             0x6666ff
         )
 
@@ -64,7 +49,7 @@ export class ActiveWordDisplay extends Phaser.GameObjects.Container {
     }
 
     createTextObj(){
-        let wordTextObj = this.scene.make.text(config.copyConfig);
+        let wordTextObj = this.scene.make.text(this.config.copyConfig);
         wordTextObj.y = this.bgRectObj.y - this.bgRectObj.height/2;
         this.wordObj = wordTextObj;
         this.add(wordTextObj);

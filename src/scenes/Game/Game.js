@@ -8,10 +8,6 @@ import { Letter } from './classes/Letter';
 import { Grid } from './classes/Grid';
 import { ActiveWordDisplay } from './classes/ActiveWordDisplay';
  
-const LEVELCONFIG = {
-  fieldSize: 3,
-  tileSize: 100,
-}
 
 export default class Game extends Phaser.Scene {
   constructor () {
