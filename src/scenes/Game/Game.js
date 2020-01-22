@@ -3,18 +3,17 @@ import data from '../../assets/data/data.json';
 
 import { WordController } from './classes/WordController';
 import { Timer } from './classes/Timer';
+import { Score } from './classes/hud/score/Score';
 import { WordBank } from './classes/WordBank';
-import { Letter } from './classes/Letter';
 import { Grid } from './classes/Grid';
 import { ActiveWordDisplay } from './classes/ActiveWordDisplay';
+import { HUD } from './classes/hud/HUD.js'
  
 
 export default class Game extends Phaser.Scene {
   constructor () {
     super('Game');
 
-    this.targetLetter = "";
-    this.targetLetterObj = null;
     this.activeWordDisplay = null;
     this.letterGridArr = [];
     this.wordBank = null;
@@ -41,9 +40,6 @@ export default class Game extends Phaser.Scene {
   }
 
   submitWord(){
-      // User can select a target letter to begin word
-      this.targetLetterObj = null;
-      this.targetLetter = "";
 
       // submit new word to wordset
       // this.wordController.submitNewWord(this.activeWordDisplay.currentWord);
@@ -63,17 +59,25 @@ export default class Game extends Phaser.Scene {
  
   create () {
 
-    // create current word display
-    this.activeWordDisplay = new ActiveWordDisplay(this, 0, 0, this.question);
-    this.activeWordDisplay.init();
+
+    // // create score display
+    // this.score = new Score(this, 150, 150)
+
+    // // create current word display
+    // this.activeWordDisplay = new ActiveWordDisplay(this, 0, 0, this.question);
+    // this.activeWordDisplay.init();
 
     // create grid obj
     // refactor - expense calculation .getBounds??
-    this.grid = new Grid(this, 0, this.activeWordDisplay.getBounds().height, this.wordController.lettersArr.join(''));
-    this.grid.init(); 
+    // this.grid = new Grid(this, 0, this.activeWordDisplay.getBounds().height, this.wordController.lettersArr.join(''));
+    // this.grid.init(); 
 
     // init event emitters
-    this.initEventListeners();
+    // this.initEventListeners();
+
+    // create HUD
+    this.hud = new HUD(this, 0, 0)
+    this.hud.init()
 
 
 
@@ -95,19 +99,19 @@ export default class Game extends Phaser.Scene {
     this.question = this.gameData[this.dataIndx].question;
 
     // create Wordbank for level
-    this.wordBank = new WordBank(this, 0, 400);
+    // this.wordBank = new WordBank(this, 0, 400);
     // this.wordBank.init();
 
     // config wordController - famecon
-    this.wordController = new WordController(this.wordBank, this.word);
-    this.wordController.init();
-    console.log(this.wordController);
+    // this.wordController = new WordController(this.wordBank, this.word);
+    // this.wordController.init();
+    // console.log(this.wordController);
    
-    // create timer
-    this.timer = new Timer(this, 270, 150 );
-    this.timer.init();
+    // // create timer
+    // this.timer = new Timer(this, 270, 150 );
+    // this.timer.init();
 
-    this.letterLvlArray = this.wordController.lettersArr;
+    // this.letterLvlArray = this.wordController.lettersArr;
 
 
 
