@@ -58,7 +58,7 @@ export const config = {
             fontSize: '22.5px',
             fontFamily: 'Arial',
             color: '#ffffff',
-            align: 'center',  // 'left'|'center'|'right'|'justify'
+            align: 'center',
         }  
     }
 
