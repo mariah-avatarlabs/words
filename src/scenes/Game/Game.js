@@ -1,5 +1,6 @@
 import 'phaser';
 import data from '../../assets/data/data.json';
+import * as util from '../../utilities/Utilities'
 
 import { WordController } from './classes/WordController';
 import { Timer } from './classes/Timer';
@@ -28,14 +29,27 @@ export default class Game extends Phaser.Scene {
   nextLvl(){
     if(this.dataIndx + 1 < this.gameData.length){
       this.dataIndx++;
-      this.word = this.gameData[this.dataIndx].word;
-      this.question = this.gameData[this.dataIndx].question;
+
+      initLvl(this.dataIndx);
+
+      // this.word = this.gameData[this.dataIndx].word;
+      // this.question = this.gameData[this.dataIndx].question;
       
-      this.wordController.update(this.word);
-      let newString = this.wordController.string;
-      this.grid.updateGrid(newString);
-      this.activeWordDisplay.updateQuestion(this.question);
+      // this.wordController.update(this.word);
+      // let newString = this.wordController.string;
+      // this.grid.updateGrid(newString);
     }
+
+  }
+
+  initLvl(dataIndx){
+    let lvlData = this.gameData[dataIndx];
+    let lvlWordLetters = util.generateWordLetterSet(lvlData.word);
+
+    this.word = util.shuffleString(lvlWordLetters);
+    this.question = lvlData.question;
+
+    this.grid.updateGrid(this.word);
 
   }
 
@@ -43,16 +57,17 @@ export default class Game extends Phaser.Scene {
 
       // submit new word to wordset
       // this.wordController.submitNewWord(this.activeWordDisplay.currentWord);
-      console.log('word display: ', this.activeWordDisplay.currentWord)
       console.log('targetWord: ', this.word);
   
-      if(this.activeWordDisplay.currentWord === this.word){
+      if(this.hud.currentWord() === this.word){
         this.nextLvl();
 
-      }      
+      } else {
+        this.grid.reset();
+        this.hud.clearWordDisplay();
+      }    
 
-      this.grid.reset();
-      this.activeWordDisplay.clear();
+
 
 
   }
@@ -67,17 +82,24 @@ export default class Game extends Phaser.Scene {
     // this.activeWordDisplay = new ActiveWordDisplay(this, 0, 0, this.question);
     // this.activeWordDisplay.init();
 
+    // create HUD
+    this.hud = new HUD(this, 0, 0);
+    this.hud.init();
+
+
     // create grid obj
     // refactor - expense calculation .getBounds??
-    // this.grid = new Grid(this, 0, this.activeWordDisplay.getBounds().height, this.wordController.lettersArr.join(''));
-    // this.grid.init(); 
+    this.grid = new Grid(this, 0, this.hud.getBounds().height);
+    this.grid.init(); 
+
+    console.log('grid: ', this.grid)
+
+    this.initLvl(this.dataIndx);
+
 
     // init event emitters
     // this.initEventListeners();
 
-    // create HUD
-    this.hud = new HUD(this, 0, 0)
-    this.hud.init()
 
 
 
@@ -103,7 +125,7 @@ export default class Game extends Phaser.Scene {
     // this.wordBank.init();
 
     // config wordController - famecon
-    // this.wordController = new WordController(this.wordBank, this.word);
+    this.wordController = new WordController(this.word);
     // this.wordController.init();
     // console.log(this.wordController);
    
@@ -117,8 +139,12 @@ export default class Game extends Phaser.Scene {
 
   }
 
+  addLetter(letter){
+
+  }
+
   udpateActiveWord(letter){
-    this.activeWordDisplay.update(letter);
+    this.hud.updateWord(letter);
   }
 
 

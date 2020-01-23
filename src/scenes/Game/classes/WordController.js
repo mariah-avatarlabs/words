@@ -2,11 +2,10 @@ import { config } from '../../../assets/data/config.js'
 
 
 export class WordController {
-    constructor(wordbankObj, word) {
+    constructor(word) {
         this.word = word;
         this.string = "";
 
-        this.wordbankObj = wordbankObj;
         this.lettersArr = [];
         
         this.availableWords = {};      
@@ -15,29 +14,10 @@ export class WordController {
     }
 
     init(){
-        console.log('wordctrlword: ', this.word)
         this.generateWordLetterSet(this.word);
 
     }
 
-    selectRand(quantity, string){
-        let randString = ""
-        for( let i = 0; i < quantity; i++){
-            let letterInx = Math.floor(Math.random() * string.length);
-            let letter = string[letterInx];
-
-            // ensure letter selected does not already exist in string
-            if(!randString.includes(letter)){
-                randString = randString += letter;
-            } else {
-                i--;
-            }
-
-        }
-
-        return randString;
-
-    }
 
     shuffleString(string){
         let alphabank = "abcdefghijklmnopqrstuvwxyz";

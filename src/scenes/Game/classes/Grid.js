@@ -4,11 +4,12 @@ import { Letter } from '../classes/Letter'
 
 
 export class Grid extends Phaser.GameObjects.Container {
-    constructor(scene, x, y, letters, children) {
+    constructor(scene, x, y, word = '', children) {
         super(scene, x, y, children);
-
-        this.letters = letters;
+        
         this.config = config.grid;
+        this.letters = word;
+
         this.gridMatrix = this.createMatrix();
         this.gridMatrixObjs = [];
         this.letterObjDict = {};
@@ -24,9 +25,14 @@ export class Grid extends Phaser.GameObjects.Container {
         let currRow = [];
         let lvlMatrix = [];
     
-        for(let i = 0; i <= this.letters.length; i++ ){
+        for(let i = 0; i <= this.config.rows * this.config.columns; i++ ){
           let rowIndx = i + 1;
           let currLetter = this.letters[i];
+          
+          // init with no letters
+          if(currLetter == undefined){
+              currLetter = 'o'
+          }
           
           // add letter to matrix
           currRow.push(currLetter)

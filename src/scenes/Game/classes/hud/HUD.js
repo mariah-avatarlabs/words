@@ -60,13 +60,22 @@ export class HUD extends Phaser.GameObjects.Container {
     }
 
     updateLevel(bonusWord = false) {
-        this.wordDisplay.clear();
+        this.clearWordDisplay();
         this.score.increase(bonusWord);
 
     }
 
     // word display controls - move?
     currentWord(){ return this.wordDisplay.currentWord }
+
+    updateWordDisplay(letter){
+        this.wordDisplay.update(letter);
+
+    }
+
+    clearWordDisplay(){
+        this.wordDisplay.clear();
+    }    
 
 
 
