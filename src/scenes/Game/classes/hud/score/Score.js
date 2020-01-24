@@ -20,6 +20,8 @@ export class Score extends Phaser.GameObjects.Text {
         } else {
             this.val = (parseInt(this.val) + this.config.point).toString()
         }
+
+        this.text = this.val;
         
     }
 
@@ -27,7 +29,5 @@ export class Score extends Phaser.GameObjects.Text {
         this.val = '0';
     }
 
-    // ...
-
-    // preUpdate(time, delta) {}
+    
 }

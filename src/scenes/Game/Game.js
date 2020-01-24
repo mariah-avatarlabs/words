@@ -25,6 +25,7 @@ export default class Game extends Phaser.Scene {
       this.dataIndx++;
 
       this.initLvl(this.dataIndx);
+      this.hud.updateLevel();
 
     }
 
@@ -38,7 +39,6 @@ export default class Game extends Phaser.Scene {
 
     let lvlWordLetters = util.generateWordLetterSet(this.word);
     this.grid.updateGrid(util.shuffleString(lvlWordLetters));
-    this.hud.updateLevel();
     this.questionDisplay.update(this.question);
 
   }
