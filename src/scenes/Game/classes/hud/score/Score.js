@@ -4,9 +4,9 @@ import { config } from '../../../../../assets/data/config.js'
 
 export class Score extends Phaser.GameObjects.Text {
     constructor(scene, x, y, score = '0') {
-        super(scene, x, y, score, config.score.style);
+        super(scene, x, y, score, config.hud.score.style);
 
-        this.config = config.score;
+        this.config = config.hud.score;
         this.val = 0;
 
         // ...

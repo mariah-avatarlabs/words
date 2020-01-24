@@ -1,5 +1,5 @@
 import 'phaser';
-import { config } from '../../../assets/data/config.js'
+import { config } from '../../../../../assets/data/config.js'
 
 
 export class Letter extends Phaser.GameObjects.Container {

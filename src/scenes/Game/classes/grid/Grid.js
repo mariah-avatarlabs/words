@@ -1,6 +1,6 @@
 import 'phaser';
-import {config} from '../../../assets/data/config.js'
-import { Letter } from '../classes/Letter'
+import {config} from '../../../../assets/data/config.js'
+import { Letter } from './letter/Letter'
 
 
 export class Grid extends Phaser.GameObjects.Container {

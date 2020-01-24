@@ -1,3 +1,5 @@
+import { config } from '../assets/data/config'
+
 export var shuffleString = function(string){
     let alphabank = "abcdefghijklmnopqrstuvwxyz";
 

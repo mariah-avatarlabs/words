@@ -2,7 +2,8 @@ import 'phaser';
 import data from '../../assets/data/data.json';
 import * as util from '../../utilities/Utilities'
 
-import { Grid } from './classes/Grid';
+import { Grid } from './classes/grid/Grid';
+import { Question } from './classes/question/Question' 
 import { HUD } from './classes/hud/HUD.js'
  
 
@@ -14,6 +15,8 @@ export default class Game extends Phaser.Scene {
     this.dataIndx = 0;
     this.word = '';
     this.question = '';
+
+    this.questionDisplay = '';
 
   }
 
@@ -35,6 +38,8 @@ export default class Game extends Phaser.Scene {
 
     let lvlWordLetters = util.generateWordLetterSet(this.word);
     this.grid.updateGrid(util.shuffleString(lvlWordLetters));
+    this.hud.updateLevel();
+    this.questionDisplay.update(this.question);
 
   }
 
@@ -55,6 +60,9 @@ export default class Game extends Phaser.Scene {
     this.hud = new HUD(this, 0, 0);
     this.hud.init();
 
+    // create question display
+    this.questionDisplay = this.createQuestionDisplay();
+
     // create grid obj
     // refactor - expense calculation .getBounds??
     this.grid = new Grid(this, 0, this.hud.getBounds().height);
@@ -65,6 +73,14 @@ export default class Game extends Phaser.Scene {
 
     // assign eventListeners
     this.initEventListeners();
+
+
+
+  }
+
+  createQuestionDisplay(){
+    let questionObj = new Question(this, 100, 0, this.question);
+    return questionObj;
 
   }
 
