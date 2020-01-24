@@ -70,17 +70,11 @@ export class HUD extends Phaser.GameObjects.Container {
 
     updateWordDisplay(letter){
         this.wordDisplay.update(letter);
-
     }
 
     clearWordDisplay(){
         this.wordDisplay.clear();
     }    
 
-
-
-    start(){
-        // this.timeEv.start
-    }
 
 }

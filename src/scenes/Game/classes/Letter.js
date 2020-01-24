@@ -30,7 +30,6 @@ export class Letter extends Phaser.GameObjects.Container {
             this.available == true
         ){
             this.scene.udpateActiveWord(this.letter);
-            // this.deactivate();
         }
 
     }
