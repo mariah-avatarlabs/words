@@ -34,10 +34,25 @@ export class Letter extends Phaser.GameObjects.Container {
 
     }
 
-    createHitRect(){
+    createBgRect(){
         //add graphics to ascene
         let graphicsObj = this.scene.add.rectangle(
             0,
+            0,
+            this.width,
+            this.height,
+            0x666fff
+        )
+        this.bgRect = graphicsObj;
+        this.add(graphicsObj);
+
+
+    }
+
+    createHitRect(){
+        //add graphics to ascene
+        let graphicsObj = this.scene.add.rectangle(
+            (this.width - (this.width / 2)) / 2,
             0,
             this.width / 2,
             this.height / 2,
@@ -67,6 +82,10 @@ export class Letter extends Phaser.GameObjects.Container {
     }
 
     init(){
+
+        // create bg rectangle
+        this.createBgRect();
+
         // create smaller hitbox
         this.createHitRect()
         this.hitBox.setInteractive();

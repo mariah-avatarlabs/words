@@ -1,5 +1,5 @@
 import 'phaser';
-import { config } from '../../../../../assets/data/config.js'
+import { config } from '../../../../../assets/data/config'
 
 
 
@@ -8,7 +8,7 @@ export class Timer extends Phaser.GameObjects.Container {
         super(scene, x, y, children);
 
         this.intervalTime = 10;
-        this.config = config.timer;
+        this.config = config.hud.timer;
         this.gameTime = this.intervalTime * 3;
         this.currTime = this.gameTime;
         
@@ -42,7 +42,12 @@ export class Timer extends Phaser.GameObjects.Container {
     }
 
     createTimerDisplay(){
-        let timeTextObj = this.scene.make.text(this.config);
+        let timeTextObj = this.scene.add.text(
+            0,
+            0,
+            '0',
+            this.config.style
+        );
         timeTextObj.text = this.gameTime;
 
         this.timeText = timeTextObj;

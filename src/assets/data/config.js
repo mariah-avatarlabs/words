@@ -66,8 +66,10 @@ export const config = {
         tileSize: 100,
         columns: 3,
         rows: 3,
+        x: 65,
+        y: 0,
         letters: {
-            x: 25,
+            x: 0,
             y: 0,
             style: {
                 fontSize: '64px',

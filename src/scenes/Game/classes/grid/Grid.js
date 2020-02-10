@@ -8,6 +8,7 @@ export class Grid extends Phaser.GameObjects.Container {
         super(scene, x, y, children);
         
         this.config = config.grid;
+        this.x = this.config.x;
         this.letters = word;
 
         this.gridMatrix = this.createMatrix();
@@ -18,7 +19,10 @@ export class Grid extends Phaser.GameObjects.Container {
     }
 
     init(){
-        this.createGrid();
+        // create bg rectangle
+        this.createBgRect(); 
+
+        this.createGrid();       
     }
 
     createMatrix(){
@@ -48,7 +52,27 @@ export class Grid extends Phaser.GameObjects.Container {
 
     }
 
+    createBgRect(){
+        //add graphics to ascene
+        let graphicsObj = this.scene.add.rectangle(
+            95,
+            200,
+            275,
+            300,
+            0x666fff
+        )
+        // graphicsObj.y = this.y;
+        // graphicsObj.x = this.x;
+        this.bgRect = graphicsObj;
+        this.add(graphicsObj);
+    }
+
     createLetterObj(letter, rowIndx, rowPosIndx){
+
+        console.log('letter: ', letter);
+        console.log('rowInd: ', rowIndx);
+        console.log('rowPosIndx: ', rowPosIndx);
+
         let letterGameObj = new Letter(
             this.scene,
             this.config.tileSize * rowPosIndx,
