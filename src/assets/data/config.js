@@ -87,40 +87,46 @@ export const config = {
     tilePresets: [
         {
             type: 'solid',
-            atlasKey: 'blue',
+            key: 'blue',
             layer: [0],
-            color: ''
+            color: '0x0000FF'
         },
         {
             type: 'solid',
-            atlasKey: 'green',
+            key: 'green',
             layer: [0],
-            color: ''
+            color: '0x008000'
         },
         {
             type: 'solid',
-            atlasKey: 'yellow',
+            key: 'yellow',
             layer: [0],
-            color: ''
-        },                
+            color: '0xFFFF00'
+        },  
+        {
+            type: 'solid',
+            key: 'red',
+            layer: [0],
+            color: '0xFF0000'
+        },                        
         {
             type: 'image',
-            atlasKey: 'letter',
+            key: 'letter',
             layer: [1]
         },        
         {
             type: 'image',
-            atlasKey: 'cake',
+            key: 'cake',
             layer: [1]
         },  
         {
             type: 'image',
-            atlasKey: 'dress',
+            key: 'dress',
             layer: [1]
         }, 
         {
             type: 'image',
-            atlasKey: 'ring',
+            key: 'ring',
             layer: [1]
         },                  
     ]

@@ -125,7 +125,7 @@ export default class Game extends Phaser.Scene {
 
     // hydrate with current level data
     this.initLvl(this.dataIndx);
-    this.gridB = new GridBeta(this, 0, this.hud.getBounds().height, [...this.tileData]);
+    this.gridB = new GridBeta(this, 0, 0, [...this.tileData]);
     this.gridB.init(); 
 
     // refactor - make grid after initLvl

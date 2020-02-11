@@ -57,10 +57,6 @@ export class GridBeta extends Phaser.GameObjects.Container {
     }
 
     createTile(tileProperties, rowIndx, rowPosIndx){
-
-        // console.log('tileProperties: ', tileProperties);
-
-
         let tileGameObj = new Tile(
             this.scene,
             this.config.tileSize * rowPosIndx,
@@ -70,8 +66,10 @@ export class GridBeta extends Phaser.GameObjects.Container {
             this.config.tileSize            
         )
 
-        // this.add(tileGameObj);
-        // return tileGameObj;
+        this.add(tileGameObj);
+        console.log('settings: ', rowIndx, rowPosIndx)
+        console.log('settings: ', this.config)
+        return tileGameObj;
 
     }
 
@@ -93,7 +91,7 @@ export class GridBeta extends Phaser.GameObjects.Container {
                     let currDataLayer = tileTempData[i];
                     tileData[i] = tileTempData[i].pop()
                 }
-                
+
                 let tileObj = this.createTile(
                     tileData, 
                     currRow, 
