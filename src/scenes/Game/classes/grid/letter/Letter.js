@@ -11,6 +11,11 @@ export class Letter extends Phaser.GameObjects.Container {
         this.available = true;
 
         this.config = config.grid.letters;
+
+        this.configBeta = {
+            // layers ref and obj
+        }
+
         this.bgRect;
         this.hitBox;
 

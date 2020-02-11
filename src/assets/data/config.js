@@ -66,6 +66,9 @@ export const config = {
         tileSize: 100,
         columns: 3,
         rows: 3,
+        layers: 3,
+        //back to front
+        layerTypes: ['solid', 'image', 'image'],
         x: 65,
         y: 0,
         letters: {
@@ -80,6 +83,22 @@ export const config = {
             }    
         }
     },
+
+    tilePresets: [
+        {
+            type: 'solid',
+            key: 'blue',
+            color: ''
+        },
+        {
+            type: 'solid',
+            key: 'red',
+            color: ''
+        },        
+        {
+            type: 'image',
+        }
+    ]
 
 
 

@@ -1,0 +1,104 @@
+{
+	"textures": [
+		{
+			"image": "icon_spritesheet.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 908,
+				"h": 258
+			},
+			"scale": 0.5,
+			"frames": [
+				{
+					"filename": "letter",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 256,
+						"h": 171
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 256,
+						"h": 171
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 256,
+						"h": 171
+					}
+				},
+				{
+					"filename": "cake",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 257,
+						"h": 256
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 257,
+						"h": 256
+					},
+					"frame": {
+						"x": 259,
+						"y": 1,
+						"w": 257,
+						"h": 256
+					}
+				},
+				{
+					"filename": "dress",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 203,
+						"h": 256
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 203,
+						"h": 256
+					},
+					"frame": {
+						"x": 518,
+						"y": 1,
+						"w": 203,
+						"h": 256
+					}
+				},
+				{
+					"filename": "ring",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 184,
+						"h": 256
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 184,
+						"h": 256
+					},
+					"frame": {
+						"x": 723,
+						"y": 1,
+						"w": 184,
+						"h": 256
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:4ced89b2eb7231a5f3f43ca6cde0a2f5:6e89ed3a9328157253bff46d92fe76e4:30dd519b210772e522bb827bbe1f4454$"
+	}
+}
