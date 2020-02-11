@@ -1,10 +1,12 @@
 import 'phaser';
 import data from '../../assets/data/data.json';
 import * as util from '../../utilities/Utilities'
+import { config } from '../../assets/data/config'
 
 import { Grid } from './classes/grid/Grid';
 import { Question } from './classes/question/Question' 
 import { HUD } from './classes/hud/HUD.js'
+import '../../assets/icon_spritesheet.png'
  
 
 export default class Game extends Phaser.Scene {
@@ -15,6 +17,7 @@ export default class Game extends Phaser.Scene {
     this.dataIndx = 0;
     this.word = '';
     this.question = '';
+    this.config = config;
 
   }
 
@@ -29,6 +32,40 @@ export default class Game extends Phaser.Scene {
 
   }
 
+  getLayerTileData(numberTiles, layerIndx){
+    let availableTileData = this.config.tilePresets;
+    let levelTiles = [];
+
+    availableTileData = availableTileData.filter( dataObj => {
+      // is available to be used for selected layer
+      if (dataObj.layer.includes(layerIndx))
+        return dataObj;
+
+    })
+    
+    // === GENERATE BASE TILE DATA PER LAYER === //
+
+    //select random tiles for layer
+    let maxIndx = (availableTileData.length - 1);
+    console.log('cycle: ', numberTiles);
+
+    // get number of tiles per 0 based indx
+    for (let i = 0; i <= numberTiles - 1; i++ ){
+      let randIndex = Math.random() * (maxIndx - 0) + 0;
+      randIndex = Math.floor(randIndex);
+
+      levelTiles.push(availableTileData[randIndex]);
+
+    }
+
+    //duplicate data for pairs
+    return levelTiles.concat(levelTiles);
+
+    // === GENERATE BASE TILE DATA PER LAYER === //
+
+  }
+
+
   initLvl(dataIndx){
     let lvlData = this.gameData[dataIndx];
 
@@ -37,6 +74,23 @@ export default class Game extends Phaser.Scene {
 
     let lvlWordLetters = util.generateWordLetterSet(this.word);
     this.grid.updateGrid(util.shuffleString(lvlWordLetters));
+    
+    // === GENERATE DATA FOR MULILAYER TILES === //
+
+    // calculate data
+    let lvlTileData = this.config.grid;
+    let numberOfTiles = lvlTileData.columns * lvlTileData.rows;
+    
+    if(numberOfTiles % 2 !== 0 ){
+      throw 'CONFIG ERROR: grid not even number of tiles'
+    } else {
+      numberOfTiles = numberOfTiles / 2;
+    }
+
+    let layer1TileData = this.getLayerTileData(numberOfTiles, 0);
+    let layer2TileData = this.getLayerTileData(numberOfTiles, 1);
+
+    // === GENERATE DATA FOR MULILAYER TILES === //
 
   }
 
@@ -85,6 +139,15 @@ export default class Game extends Phaser.Scene {
   }
 
   preload () {
+    // move to preload
+    let ss = this.load.atlas(
+      'atlas', 
+      'assets/icon_spritesheet.png', 
+      'assets/icon_spritesheet.json'
+      );
+    
+      console.log("Ss: ", ss)
+
     this.word = this.gameData[this.dataIndx].word;
     this.question = this.gameData[this.dataIndx].question;
 

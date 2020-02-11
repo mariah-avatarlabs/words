@@ -64,11 +64,11 @@ export const config = {
 
     grid: {
         tileSize: 100,
-        columns: 3,
-        rows: 3,
-        layers: 3,
+        columns: 4,
+        rows: 4,
+        layers: 2,
         //back to front
-        layerTypes: ['solid', 'image', 'image'],
+        layerTypes: ['solid', 'image'],
         x: 65,
         y: 0,
         letters: {
@@ -87,19 +87,42 @@ export const config = {
     tilePresets: [
         {
             type: 'solid',
-            key: 'blue',
+            atlasKey: 'blue',
             layer: [0],
             color: ''
         },
         {
             type: 'solid',
-            key: 'red',
-            color: '',
-            layer: [1, 2]
+            atlasKey: 'green',
+            layer: [0],
+            color: ''
+        },
+        {
+            type: 'solid',
+            atlasKey: 'yellow',
+            layer: [0],
+            color: ''
+        },                
+        {
+            type: 'image',
+            atlasKey: 'letter',
+            layer: [1]
         },        
         {
             type: 'image',
-        }
+            atlasKey: 'cake',
+            layer: [1]
+        },  
+        {
+            type: 'image',
+            atlasKey: 'dress',
+            layer: [1]
+        }, 
+        {
+            type: 'image',
+            atlasKey: 'ring',
+            layer: [1]
+        },                  
     ]
 
 
