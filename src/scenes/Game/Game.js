@@ -16,8 +16,6 @@ export default class Game extends Phaser.Scene {
     this.word = '';
     this.question = '';
 
-    this.questionDisplay = '';
-
   }
 
   nextLvl(){
@@ -39,7 +37,6 @@ export default class Game extends Phaser.Scene {
 
     let lvlWordLetters = util.generateWordLetterSet(this.word);
     this.grid.updateGrid(util.shuffleString(lvlWordLetters));
-    this.questionDisplay.update(this.question);
 
   }
 
@@ -60,9 +57,6 @@ export default class Game extends Phaser.Scene {
     this.hud = new HUD(this, 0, 0);
     this.hud.init();
 
-    // create question display
-    this.questionDisplay = this.createQuestionDisplay();
-
     // create grid obj
     // refactor - expense calculation .getBounds??
     this.grid = new Grid(this, 0, this.hud.getBounds().height);
@@ -78,11 +72,6 @@ export default class Game extends Phaser.Scene {
 
   }
 
-  createQuestionDisplay(){
-    let questionObj = new Question(this, 100, 0, this.question);
-    return questionObj;
-
-  }
 
   initEventListeners(){
     document.addEventListener('keypress', (e) => {
