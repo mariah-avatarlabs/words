@@ -12,11 +12,15 @@ export class Tile extends Phaser.GameObjects.Container {
         super(scene, x, y, children);
 
         this.data = tileData;
+        console.log('new tile: ', this)
 
         // ...
         this.setSize(width, height);
         scene.add.existing(this);
     }
+
+
+
     // ...
 
     // preUpdate(time, delta) {}

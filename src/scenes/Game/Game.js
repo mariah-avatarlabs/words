@@ -4,6 +4,7 @@ import * as util from '../../utilities/Utilities'
 import { config } from '../../assets/data/config'
 
 import { Grid } from './classes/grid/Grid';
+import { GridBeta } from './classes/grid/GridBeta'
 import { Question } from './classes/question/Question' 
 import { HUD } from './classes/hud/HUD.js'
 import '../../assets/icon_spritesheet.png'
@@ -75,7 +76,6 @@ export default class Game extends Phaser.Scene {
     this.question = lvlData.question;
 
     let lvlWordLetters = util.generateWordLetterSet(this.word);
-    this.grid.updateGrid(util.shuffleString(lvlWordLetters));
 
     
 
@@ -120,15 +120,17 @@ export default class Game extends Phaser.Scene {
 
     // create grid obj
     // refactor - expense calculation .getBounds??
-    this.grid = new Grid(this, 0, this.hud.getBounds().height, '', this.tileData);
-    this.grid.init(); 
+    // this.grid = new Grid(this, 0, this.hud.getBounds().height, '', this.tileData);
+    // this.grid.init(); 
 
     // hydrate with current level data
     this.initLvl(this.dataIndx);
+    this.gridB = new GridBeta(this, 0, this.hud.getBounds().height, [...this.tileData]);
+    this.gridB.init(); 
 
     // refactor - make grid after initLvl
-    this.grid.layerTileData = this.tileData;
-    console.log('grid create: ', this.grid)
+    // this.grid.layerTileData = this.tileData;
+    // console.log('grid create: ', this.grid)
 
     // assign eventListeners
     this.initEventListeners();
