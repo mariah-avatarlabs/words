@@ -36,13 +36,20 @@ export class Tile extends Phaser.GameObjects.Container {
             case 'solid':
                 let colorTile = this.createColorTile(objData.color);
                 return colorTile;
-
-                
-
-
                 break;
 
             case 'image':
+                let imageTile = this.scene.add.image(
+                    0, 
+                    0, 
+                    'atlas', 
+                    objData.key
+                );
+                console.log('new image: ', imageTile);
+                imageTile.scale = 0.15;
+                // imageTile.width = this.width / 50;
+
+                this.add(imageTile);
                 break;
         }
 
@@ -58,12 +65,12 @@ export class Tile extends Phaser.GameObjects.Container {
         // )
         // return solidTileGameObj;
 
-
+        // REFACTOR - why cannot pass to parent to add to container?
         let graphicsObj = this.scene.add.rectangle(
             0,
             0,
-            this.width / 2,
-            this.height / 2,
+            this.width/1.15,
+            this.height/1.15,
             color
         )
         graphicsObj.setOrigin(0.5, 0.5);

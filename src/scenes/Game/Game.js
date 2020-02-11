@@ -50,7 +50,7 @@ export default class Game extends Phaser.Scene {
     // === GENERATE BASE TILE DATA PER LAYER === //
 
     //select random tiles for layer
-    let maxIndx = (availableTileData.length - 1);
+    let maxIndx = (availableTileData.length);
 
     // get number of tiles per 0 based indx
     for (let i = 0; i <= numberTiles - 1; i++ ){
@@ -152,15 +152,14 @@ export default class Game extends Phaser.Scene {
   }
 
   preload () {
-    // move to preload
+    // REFACTOR: move to preload
+    // REFACTOR: webpack config for root
     let ss = this.load.atlas(
       'atlas', 
-      'assets/icon_spritesheet.png', 
-      'assets/icon_spritesheet.json'
+      'src/assets/icon_spritesheet.png', 
+      'src/assets/icon_spritesheet.json'
       );
     
-      console.log("Ss: ", ss)
-
     this.word = this.gameData[this.dataIndx].word;
     this.question = this.gameData[this.dataIndx].question;
 

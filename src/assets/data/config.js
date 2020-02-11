@@ -99,15 +99,15 @@ export const config = {
         },
         {
             type: 'solid',
-            key: 'yellow',
-            layer: [0],
-            color: '0xFFFF00'
-        },  
-        {
-            type: 'solid',
             key: 'red',
             layer: [0],
             color: '0xFF0000'
+        },  
+        {
+            type: 'solid',
+            key: 'orange',
+            layer: [0],
+            color: '0xFFA500'
         },                        
         {
             type: 'image',
