@@ -3,7 +3,7 @@ import {config} from '../../../../assets/data/config.js'
 import { Letter } from './letter/Letter'
 
 // === AVAILABLE TILE TYPES === //
-import { Tile } from './tiles/Tile';
+import { Tile } from './tiles/Tile.js';
 
 
 export class Grid extends Phaser.GameObjects.Container {
@@ -20,7 +20,7 @@ export class Grid extends Phaser.GameObjects.Container {
         
 
         // === DATA FOR MULTILAYER TILES == //
-        this.layerTileData = this.tileData;
+        this.layerTileData = scene.tileData;
 
         scene.add.existing(this);
 
@@ -57,18 +57,18 @@ export class Grid extends Phaser.GameObjects.Container {
 
     }
 
-    createTile(){
+    createTile(tileProperties, rowIndx, rowPosIndx){
         let tileGameObj = new Tile(
             this.scene,
             this.config.tileSize * rowPosIndx,
             this.config.tileSize * rowIndx,
-            letter,
+            tileProperties,
             this.config.tileSize,
             this.config.tileSize            
         )
 
-        this.add(tileGameObj);
-        return tileGameObj;
+        // this.add(tileGameObj);
+        // return tileGameObj;
 
     }
 
@@ -91,6 +91,10 @@ export class Grid extends Phaser.GameObjects.Container {
     }
 
     createGrid(){
+        console.log('begingrid: ', this.layerTileData);
+        let tileTempData = [...this.layerTileData];
+
+
         // iterate through level matrix for positioning
         for( let i = 0; i <= this.gridMatrix.length - 1; i++){
             let currMatrixRow = this.gridMatrix[i];
@@ -98,8 +102,23 @@ export class Grid extends Phaser.GameObjects.Container {
 
             for(let i = 0; i <= this.config.columns - 1; i++){
                 let currLetter = currMatrixRow[i];
+
                 let letterObj = this.createLetterObj(currLetter, currRow, i);
                 currMatrixRow[i] = letterObj;
+
+                // === CALL TO CREATE TILE GAME CONTAINER WITH DATA === //
+                // assign tile data for each tile
+                let tileData = []
+                for (let i = 0; i <= this.layerTileData.length - 1; i++){
+                    tileData[i] = tileTempData[i].pop()
+                }
+                let tileObj = this.createTile(
+                    [], 
+                    currRow, 
+                    i
+                );
+
+                // === CALL TO CREATE TILE GAME CONTAINER WITH DATA === //
 
                 //this.letterObjDict[`${currLetter}${i + 1}`] = letterGameObj
             }

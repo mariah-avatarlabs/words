@@ -6,22 +6,17 @@ import { ImageTile } from './ImageTile';
 import { SolidTile } from './SolidTile';
 
 
-export class Letter extends Phaser.GameObjects.Container {
-    constructor(scene, x, y, tileData, children) {
+
+export class Tile extends Phaser.GameObjects.Container {
+    constructor(scene, x, y, tileData, width, height, children) {
         super(scene, x, y, children);
-        
-        this.tileData = tileData;
 
+        this.data = tileData;
+
+        // ...
+        this.setSize(width, height);
         scene.add.existing(this);
-
     }
-
-
-    createTile(){
-        
-    }
-
-
     // ...
 
     // preUpdate(time, delta) {}
