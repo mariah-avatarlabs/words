@@ -88,12 +88,14 @@ export const config = {
         {
             type: 'solid',
             key: 'blue',
+            layer: [0],
             color: ''
         },
         {
             type: 'solid',
             key: 'red',
-            color: ''
+            color: '',
+            layer: [1, 2]
         },        
         {
             type: 'image',
