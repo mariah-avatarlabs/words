@@ -19,6 +19,9 @@ export default class Game extends Phaser.Scene {
     this.question = '';
     this.config = config;
 
+    // === DATA FOR MULTILAYER TILES == //
+    this.tileData = [];
+
   }
 
   nextLvl(){
@@ -47,7 +50,6 @@ export default class Game extends Phaser.Scene {
 
     //select random tiles for layer
     let maxIndx = (availableTileData.length - 1);
-    console.log('cycle: ', numberTiles);
 
     // get number of tiles per 0 based indx
     for (let i = 0; i <= numberTiles - 1; i++ ){
@@ -74,7 +76,9 @@ export default class Game extends Phaser.Scene {
 
     let lvlWordLetters = util.generateWordLetterSet(this.word);
     this.grid.updateGrid(util.shuffleString(lvlWordLetters));
+
     
+
     // === GENERATE DATA FOR MULILAYER TILES === //
 
     // calculate data
@@ -88,7 +92,10 @@ export default class Game extends Phaser.Scene {
     }
 
     let layer1TileData = this.getLayerTileData(numberOfTiles, 0);
+    this.tileData[0] = util.shuffleArray(layer1TileData);
+    
     let layer2TileData = this.getLayerTileData(numberOfTiles, 1);
+    this.tileData[1] = util.shuffleArray(layer2TileData);
 
     // === GENERATE DATA FOR MULILAYER TILES === //
 
@@ -113,11 +120,15 @@ export default class Game extends Phaser.Scene {
 
     // create grid obj
     // refactor - expense calculation .getBounds??
-    this.grid = new Grid(this, 0, this.hud.getBounds().height);
+    this.grid = new Grid(this, 0, this.hud.getBounds().height, '', this.tileData);
     this.grid.init(); 
 
     // hydrate with current level data
     this.initLvl(this.dataIndx);
+
+    // refactor - make grid after initLvl
+    this.grid.layerTileData = this.tileData;
+    console.log('grid create: ', this.grid)
 
     // assign eventListeners
     this.initEventListeners();

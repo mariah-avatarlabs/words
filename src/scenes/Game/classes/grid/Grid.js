@@ -2,9 +2,12 @@ import 'phaser';
 import {config} from '../../../../assets/data/config.js'
 import { Letter } from './letter/Letter'
 
+// === AVAILABLE TILE TYPES === //
+import { Tile } from './tiles/Tile';
+
 
 export class Grid extends Phaser.GameObjects.Container {
-    constructor(scene, x, y, word = '', children) {
+    constructor(scene, x, y, word = '', layerTitleData, children) {
         super(scene, x, y, children);
         
         this.config = config.grid;
@@ -15,13 +18,15 @@ export class Grid extends Phaser.GameObjects.Container {
         this.gridMatrixObjs = [];
         this.letterObjDict = {};
         
+
+        // === DATA FOR MULTILAYER TILES == //
+        this.layerTileData = this.tileData;
+
         scene.add.existing(this);
+
     }
 
     init(){
-        // create bg rectangle
-        this.createBgRect(); 
-
         this.createGrid();       
     }
 
@@ -52,19 +57,19 @@ export class Grid extends Phaser.GameObjects.Container {
 
     }
 
-    createBgRect(){
-        //add graphics to ascene
-        let graphicsObj = this.scene.add.rectangle(
-            95,
-            200,
-            275,
-            300,
-            0x666fff
+    createTile(){
+        let tileGameObj = new Tile(
+            this.scene,
+            this.config.tileSize * rowPosIndx,
+            this.config.tileSize * rowIndx,
+            letter,
+            this.config.tileSize,
+            this.config.tileSize            
         )
-        // graphicsObj.y = this.y;
-        // graphicsObj.x = this.x;
-        this.bgRect = graphicsObj;
-        this.add(graphicsObj);
+
+        this.add(tileGameObj);
+        return tileGameObj;
+
     }
 
     createLetterObj(letter, rowIndx, rowPosIndx){

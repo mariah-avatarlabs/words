@@ -1,5 +1,21 @@
 import { config } from '../assets/data/config'
 
+export var shuffleArray = function(array){
+    // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array?page=2&tab=oldest#tab-top
+    // research
+
+    let baseArray = [...array];
+    let shuffledArray = [];
+
+    for (var i = baseArray.length; i > 0; i--) {
+        var randIndx = Math.floor(Math.random() * (baseArray.length + 0) + 0);
+        shuffledArray.push(baseArray.splice(randIndx, 1)[0]);
+    }
+
+    return shuffledArray;
+
+}
+
 export var shuffleString = function(string){
     let alphabank = "abcdefghijklmnopqrstuvwxyz";
 
