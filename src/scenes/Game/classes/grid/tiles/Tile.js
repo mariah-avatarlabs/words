@@ -6,12 +6,12 @@ import { ImageTile } from './ImageTile';
 import { SolidTile } from './SolidTile';
 
 
-
 export class Tile extends Phaser.GameObjects.Container {
-    constructor(scene, x, y, tileData, width, height, children) {
+    constructor(scene, x, y, tileData, clickEvent, width, height, children) {
         super(scene, x, y, children);
 
         this.data = tileData;
+        this.gridEvent = clickEvent;
 
         // ...
         this.setSize(width, height);
@@ -29,6 +29,27 @@ export class Tile extends Phaser.GameObjects.Container {
             
         });
 
+        // create click event [gridcontrller]
+        this.createTileEvent()
+
+        // initilize onClick
+        this.setInteractive().on('pointerdown', () => {
+            console.log('doc: ', document)
+            document.dispatchEvent(this.gridEvent, this);
+        })
+
+
+    }
+
+    createTileEvent(tileObj){
+        // REFACTOR - IE COMPATIBILITY
+        var event = new CustomEvent('tileSelect', {
+            detail: { 
+                tile: this.data 
+            }
+        });
+        this.gridEvent = event;
+        return event;
     }
 
     createLayerGameObj(objData, layer){

@@ -18,16 +18,23 @@ export class Grid extends Phaser.GameObjects.Container {
         this.gridMatrixObjs = [];
         this.letterObjDict = {};
         
-
         // === DATA FOR MULTILAYER TILES == //
         this.layerTileData = scene.tileData;
+        this.tileEvent = null;
 
+        
         scene.add.existing(this);
 
     }
 
     init(){
         this.createGrid();       
+    }
+
+    createTileEvent(){
+        var event = document.createEvent('Event');
+        event.initEvent('tileSelect', true, true);
+        this.tileEvent = event;
     }
 
     createMatrix(){
@@ -67,6 +74,7 @@ export class Grid extends Phaser.GameObjects.Container {
             this.config.tileSize * rowPosIndx,
             this.config.tileSize * rowIndx,
             tileProperties,
+            this.tileEvent,
             this.config.tileSize,
             this.config.tileSize            
         )

@@ -4,6 +4,7 @@ import * as util from '../../utilities/Utilities'
 import { config } from '../../assets/data/config'
 
 import { Grid } from './classes/grid/Grid';
+import { GridController } from './classes/grid/GridController';
 import { GridBeta } from './classes/grid/GridBeta'
 import { Question } from './classes/question/Question' 
 import { HUD } from './classes/hud/HUD.js'
@@ -128,6 +129,9 @@ export default class Game extends Phaser.Scene {
     this.gridB = new GridBeta(this, 0, 0, [...this.tileData]);
     this.gridB.init(); 
 
+    this.gridController = new GridController(this.gridB);
+    this.gridController.init();
+    
     // refactor - make grid after initLvl
     // this.grid.layerTileData = this.tileData;
     // console.log('grid create: ', this.grid)
