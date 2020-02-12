@@ -18,7 +18,7 @@ export class GridController {
         console.log('created')
 
         document.addEventListener('tileSelect', (e) => {
-            if(e.detail.tile)
+            if(e.detail.data)
                 this.assignTargetTiles(e.detail.tile);
             else    
                 throw('ERROR: NO TILE IN EVENT')

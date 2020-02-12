@@ -32,6 +32,9 @@ export class Tile extends Phaser.GameObjects.Container {
         // create click event [gridcontrller]
         this.createTileEvent()
 
+        // add ref in data payload
+        this.createTileEvent()
+
         // initilize onClick
         this.setInteractive().on('pointerdown', () => {
             console.log('doc: ', document)
@@ -45,7 +48,8 @@ export class Tile extends Phaser.GameObjects.Container {
         // REFACTOR - IE COMPATIBILITY
         var event = new CustomEvent('tileSelect', {
             detail: { 
-                tile: this.data 
+                data: this.data,
+                obj: this
             }
         });
         this.gridEvent = event;
